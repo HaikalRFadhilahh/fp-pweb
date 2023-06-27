@@ -46,16 +46,16 @@
             <div class="rounded-lg px-4 py-4 bg-white bg-opacity-50 backdrop-blur-sm lg:bg-opacity-0 lg:bg-transparent lg:backdrop-blur-none ">
                 <h2 class=" text-4xl tracking-wide font-bold text-slate-900">Selamat Datang</h2>
                 <p class="font-semibold text-base my-3">Masukkan username dan password akun anda!</p>
-                <form action="" method="POST" class="my-4 flex flex-col gap-4">
+                <form action="../aksi/aksi_login.php" method="POST" class="my-4 flex flex-col gap-4">
                     <label for="username">
                         <p class="font-light text-lg">Username</p>
-                        <input type="text" id="username" name="username" class="py-2 px-3 w-full rounded-2xl outline-none ring-0 border-[1px] border-blue-500">
+                        <input type="text" id="username" name="username" class="py-2 px-3 w-full rounded-2xl outline-none ring-0 border-[1px] border-blue-500" required>
                     </label>
                     <label for="password">
                         <p class="font-light text-lg">Password</p>
-                        <input type="text" id="password" name="password" class="py-2 px-3 w-full rounded-2xl outline-none ring-0 border-[1px] border-blue-500">
+                        <input type="text" id="password" name="password" class="py-2 px-3 w-full rounded-2xl outline-none ring-0 border-[1px] border-blue-500" required>
                     </label>
-                    <button class="bg-gradient-to-r from-cyan-300 to-blue-600 py-2 rounded-lg text-xl text-white font-semibold">Login</button>
+                    <button class="bg-gradient-to-r from-cyan-300 to-blue-600 py-2 rounded-lg text-xl text-white font-semibold" type="submit">Login</button>
                 </form>
                 <p class="font-normal tracking-wide text-base">Belum Punya akun? <a href="./register.php" class="text-cyan-500 hover:text-cyan-600 active:text-cyan-700">Buat Akun Disini</a></p>
                 <a href="#" class="text-center text-cyan-500 hover:text-cyan-600 active:text-cyan-700 font-normal text-base font-mono">Lupa Password?</a>
