@@ -10,9 +10,9 @@
 
 <body>
     <div class="w-full min-h-screen h-fit flex">
-        <div class="hidden lg:w-[60%] lg:flex h-screen bg-red-400"></div>
-        <div class="w-[90%] lg:w-[40%] items-center justify-center flex h-screen flex-col container mx-auto px-2">
-            <div class="rounded-md px-4 py-4">
+        <div class="hidden lg:w-[60%] lg:flex h-screen bg-red-400 bg-center bg-cover" style="background-image: url('../IMG/');"></div>
+        <div class="w-[90%] lg:w-[40%] items-center justify-center flex h-screen  flex-col container mx-auto px-2">
+            <div class="rounded-md px-4 py-4 bg-white bg-opacity-40 backdrop-blur-md lg:bg-opacity-0 lg:bg-transparent lg:backdrop-blur-none ">
                 <h2 class=" text-4xl tracking-wide font-bold text-slate-900">Selamat Datang</h2>
                 <p class="font-semibold text-base my-3">Masukkan username dan password akun anda!</p>
                 <form action="" class="my-4 flex flex-col gap-4">
