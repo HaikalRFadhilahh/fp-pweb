@@ -42,7 +42,7 @@
 <body>
     <div class="w-full min-h-screen h-fit flex">
         <div class="hidden lg:w-[60%] lg:flex h-screen bg-center bg-cover" style="background-image: url('../IMG/bus2.jpg');"></div>
-        <div class="w-full lg:w-[40%] items-center justify-center flex h-screen  flex-col container mx-auto px-2 mobilemode bg-center bg-cover">
+        <div class="w-full lg:w-[40%] items-center justify-center flex h-screen  flex-col mx-auto px-2 mobilemode bg-center bg-cover">
             <div class="rounded-lg px-4 py-4 bg-white bg-opacity-50 backdrop-blur-sm lg:bg-opacity-0 lg:bg-transparent lg:backdrop-blur-none ">
                 <h2 class=" text-4xl tracking-wide font-bold text-slate-900">Register</h2>
                 <p class="font-semibold text-base my-3">Silahkan buat akun pertamamu!</p>

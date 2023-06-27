@@ -2,7 +2,12 @@
 module.exports = {
   content: ["./pages/*.{html,js,php}", "./*.{html,js,php}"],
   theme: {
-    extend: {},
+    extend: {
+      fontFamily: {
+        inter: ["Inter", "sans-serif"],
+        keania: ["Keania One", "cursive"],
+      },
+    },
   },
   plugins: [],
 };
