@@ -1,4 +1,4 @@
-<nav class="w-full max-w-screen h-14 bg-gradient-to-r from-[#00CEFB] via-[#44c4e0] to-[#024EC1]">
+<nav class="w-full min-w-screen h-14 bg-gradient-to-r from-[#00CEFB] via-[#44c4e0] to-[#024EC1]">
     <div class="container h-full mx-auto flex items-center justify-between px-2 lg:px-0 relative">
         <h2 class="font-inter text-3xl font-semibold text-white">JOGJA<span class="text-base font-medium font-keania">Travel</span></h2>
         <ul class="hidden gap-6 font-inter text-white font-semibold md:flex">
