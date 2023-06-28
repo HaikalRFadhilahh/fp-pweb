@@ -10,6 +10,7 @@ module.exports = {
       fontFamily: {
         inter: ["Inter", "sans-serif"],
         keania: ["Keania One", "cursive"],
+        poppins: ["Poppins", "sans-serif"],
       },
     },
   },
