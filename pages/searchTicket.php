@@ -4,8 +4,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../CSS/tailwind.css">
     <title>Jogja Travel | Cari Ticket</title>
+    <link rel="stylesheet" href="../CSS/tailwind.css">
     <?php include('../material/fonts.php');
     include('../material/icons.php'); ?>
 </head>
@@ -23,22 +23,22 @@
             </div>
             <div class="w-full px-2 py-4 flex md:w-1/2">
                 <div class="w-4/5  rounded-md bg-white aspect-[9/12] sm:aspect-square md:aspect-square mx-auto flex flex-col items-center justify-center px-4 py-4">
-                    <form action="" class="w-3/4 flex-col flex gap-4">
+                    <form action="./ticket.php" method="POST" class="w-3/4 flex-col flex gap-4">
                         <label for="tujuan">
                             <p class="text-left font-inter font-semibold text-black my-2">Kota Tujuan</p>
-                            <select name="" id="tujuan" class="font-semibold w-full bg-transparent py-2 px-2 outline-none ring-2 ring-cyan-400 rounded-md">
+                            <select name="tujuan" id="tujuan" class="font-semibold w-full bg-transparent py-2 px-2 outline-none ring-2 ring-cyan-400 rounded-md" required>
                                 <option value="" selected disabled>Pilih Tujuan</option>
-                                <option value="">Semarang</option>
-                                <option value="">Solo</option>
-                                <option value="">Surabaya</option>
-                                <option value="">Jakarta</option>
+                                <option value="Semarang">Semarang</option>
+                                <option value="Solo">Solo</option>
+                                <option value="Surabaya">Surabaya</option>
+                                <option value="Jakarta">Jakarta</option>
                             </select>
                         </label>
                         <label for="tanggal">
                             <p class="text-left font-inter font-semibold text-black my-2">Tanggal Keberangkatan</p>
-                            <input type="date" id="tanggal" name="" class="w-full bg-transparent py-2 px-2 outline-none ring-2 ring-cyan-400 rounded-md">
+                            <input type="date" id="tanggal" name="tanggal" class="w-full bg-transparent py-2 px-2 outline-none ring-2 ring-cyan-400 rounded-md" required>
                         </label>
-                        <button class="block bg-gradient-to-r from-[#00CEFB] to-[#024EC1] text-center w-full py-2 rounded-md font-inter font-semibold text-white">Cari Tiket</button>
+                        <button class="block bg-gradient-to-r from-[#00CEFB] to-[#024EC1] text-center w-full py-2 rounded-md font-inter font-semibold text-white" type="submit">Cari Tiket</button>
                     </form>
                 </div>
             </div>
