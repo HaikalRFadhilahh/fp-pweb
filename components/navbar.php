@@ -8,8 +8,16 @@
             <li class="hover:text-[#00CEFB]"><a href="#">Pembayaran</a></li>
         </ul>
         <ul class="hidden gap-5 font-inter font-semibold text-white lg:flex">
-            <li class="hover:text-[#00CEFB]"><a href="./pages/login.php">Login</a></li>
-            <li class="hover:text-[#00CEFB]"><a href="./pages/register.php">Daftar</a></li>
+            <?php
+            session_start();
+            if (empty($_SESSION['id']) && empty($_SESSION['username']) && empty($_SESSION['role'])) :
+            ?>
+                <li class="hover:text-[#00CEFB]"><a href="./pages/login.php">Login</a></li>
+                <li class="hover:text-[#00CEFB]"><a href="./pages/register.php">Daftar</a></li>
+            <?php else :
+            ?>
+                <li class="hover:text-[#00CEFB]"><a href="./aksi/aksi_logout.php">Logout</a></li>
+            <?php endif; ?>
         </ul>
         <div class="h-3/4 aspect-square flex justify-center items-center lg:hidden" onclick="saklarMenu()">
             <span class="material-symbols-outlined" style="font-size: 2.4rem;color: #FFFFFF;">
@@ -25,8 +33,16 @@
             </ul>
             <hr class="border-1 border-slate-900">
             <ul class="px-2 py-1">
-                <li class="hover:text-[#00CEFB]"><a href="./pages/login.php">Login</a></li>
-                <li class="hover:text-[#00CEFB]"><a href="./pages/register.php">Daftar</a></li>
+                <?php
+                session_start();
+                if (empty($_SESSION['id']) && empty($_SESSION['username']) && empty($_SESSION['role'])) :
+                ?>
+                    <li class="hover:text-[#00CEFB]"><a href="./pages/login.php">Login</a></li>
+                    <li class="hover:text-[#00CEFB]"><a href="./pages/register.php">Daftar</a></li>
+                <?php else :
+                ?>
+                    <li class="hover:text-[#00CEFB]"><a href="./aksi/aksi_logout.php">Logout</a></li>
+                <?php endif; ?>
             </ul>
         </div>
     </div>

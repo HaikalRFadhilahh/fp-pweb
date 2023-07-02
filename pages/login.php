@@ -1,3 +1,8 @@
+<?php
+
+require('../middleware/guest.php');
+
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -53,7 +58,7 @@
                     </label>
                     <label for="password">
                         <p class="font-light text-lg">Password</p>
-                        <input type="text" id="password" name="password" class="py-2 px-3 w-full rounded-2xl outline-none ring-0 border-[1px] border-blue-500" required>
+                        <input type="password" id="password" name="password" class="py-2 px-3 w-full rounded-2xl outline-none ring-0 border-[1px] border-blue-500" required>
                     </label>
                     <button class="bg-gradient-to-r from-cyan-300 to-blue-600 py-2 rounded-lg text-xl text-white font-semibold" type="submit">Login</button>
                 </form>
