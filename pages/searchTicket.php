@@ -10,6 +10,12 @@
     include('../material/icons.php'); ?>
 </head>
 
+<?php
+
+require('../koneksi/koneksi.php');
+
+?>
+
 <body>
     <!-- Navbar -->
     <?php include('../components/navbar.php'); ?>
@@ -28,10 +34,12 @@
                             <p class="text-left font-inter font-semibold text-black my-2">Kota Tujuan</p>
                             <select name="tujuan" id="tujuan" class="font-semibold w-full bg-transparent py-2 px-2 outline-none ring-2 ring-cyan-400 rounded-md" required>
                                 <option value="" selected disabled>Pilih Tujuan</option>
-                                <option value="Semarang">Semarang</option>
-                                <option value="Solo">Solo</option>
-                                <option value="Surabaya">Surabaya</option>
-                                <option value="Jakarta">Jakarta</option>
+                                <?php
+                                $query = "select * from tujuan";
+                                $res = mysqli_query($conn, $query);
+                                while ($d = $res->fetch_assoc()) : ?>
+                                    <option value="<?php echo $d['nama_daerah'] ?>"><?php echo $d['nama_daerah'] ?></option>
+                                <?php endwhile; ?>
                             </select>
                         </label>
                         <label for="tanggal">
@@ -48,6 +56,7 @@
     <!-- Footer -->
     <?php include('../components/footer.php'); ?>
     <!-- End Footer -->
+
 </body>
 
 </html>

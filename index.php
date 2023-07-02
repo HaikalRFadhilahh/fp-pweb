@@ -12,7 +12,62 @@
 
 <body>
     <!-- Navbar Section -->
-    <?php include('./components/navbar.php'); ?>
+    <nav class="w-full min-w-screen h-14 bg-gradient-to-r from-[#00CEFB] via-[#44c4e0] to-[#024EC1]">
+        <div class="container h-full mx-auto flex items-center justify-between px-2 lg:px-0 relative">
+            <a href="#" class="font-inter text-3xl font-semibold text-white">JOGJA<span class="text-base font-medium font-keania">Travel</span></a>
+            <ul class="hidden gap-6 font-inter text-white font-semibold md:flex">
+                <li class="hover:text-[#00CEFB]"><a href="./index.php">Home</a></li>
+                <li class="hover:text-[#00CEFB]"><a href="./pages/searchTicket.php">Pemesanan</a></li>
+                <li class="hover:text-[#00CEFB]"><a href="#">Tiket</a></li>
+                <li class="hover:text-[#00CEFB]"><a href="#">Pembayaran</a></li>
+            </ul>
+            <ul class="hidden gap-5 font-inter font-semibold text-white lg:flex">
+                <?php
+                session_start();
+                if (empty($_SESSION['id']) && empty($_SESSION['username']) && empty($_SESSION['role'])) :
+                ?>
+                    <li class="hover:text-[#00CEFB]"><a href="./pages/login.php">Login</a></li>
+                    <li class="hover:text-[#00CEFB]"><a href="./pages/register.php">Daftar</a></li>
+                <?php else :
+                ?>
+                    <li class="hover:text-[#00CEFB]"><a href="./aksi/aksi_logout.php">Logout</a></li>
+                <?php endif; ?>
+            </ul>
+            <div class="h-3/4 aspect-square flex justify-center items-center lg:hidden" onclick="saklarMenu()">
+                <span class="material-symbols-outlined" style="font-size: 2.4rem;color: #FFFFFF;">
+                    menu
+                </span>
+            </div>
+            <div class="w-fit h-fit border-2 border-slate-900 bg-slate-200 absolute top-11 right-7 rounded-lg hidden flex-col lg:hidden" id="tombolMenu">
+                <ul class="px-2 py-1 md:hidden">
+                    <li class="hover:text-[#00CEFB]"><a href="#">Home</a></li>
+                    <li class="hover:text-[#00CEFB]"><a href="#">Pemesanan</a></li>
+                    <li class="hover:text-[#00CEFB]"><a href="#">Tiket</a></li>
+                    <li class="hover:text-[#00CEFB]"><a href="#">Pembayaran</a></li>
+                </ul>
+                <hr class="border-1 border-slate-900">
+                <ul class="px-2 py-1">
+                    <?php
+                    session_start();
+                    if (empty($_SESSION['id']) && empty($_SESSION['username']) && empty($_SESSION['role'])) :
+                    ?>
+                        <li class="hover:text-[#00CEFB]"><a href="./pages/login.php">Login</a></li>
+                        <li class="hover:text-[#00CEFB]"><a href="./pages/register.php">Daftar</a></li>
+                    <?php else :
+                    ?>
+                        <li class="hover:text-[#00CEFB]"><a href="./aksi/aksi_logout.php">Logout</a></li>
+                    <?php endif; ?>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <script>
+        const saklarMenu = () => {
+            const doc = document.getElementById("tombolMenu");
+            doc.classList.toggle("hidden");
+            doc.classList.toggle("flex");
+        };
+    </script>
     <!-- End Navbar Section -->
     <!-- Hero Section (Banner Content) -->
     <section class="min-w-screen lg:aspect-video min-h-screen h-fit bg-center bg-cover mx-auto" style="background-image: url('./IMG/bus3.png');">
@@ -23,7 +78,7 @@
                 <p class="text-base text-white font-inter font-semibold md:text-lg">Kami dapat membantu anda untuk mencari tiket bus dengan cepat dan mudah hanya dengan sekali klik. Anda dapat membaca langkah langkah dibawah untuk mempermudah anda memesan tiket.</p>
                 <div class="w-full md:inline-flex gap-5 items-center">
                     <p class="text-base text-white font-inter font-semibold my-4 md:w-fit md:text-lg">Pesan Tiket? Klik tombol <span class="hidden md:inline">disamping</span> <span class="md:hidden">dibawah</span></p>
-                    <a href="#" class="px-12 py-2 rounded-md bg-gradient-to-r from-[#00C5F7] to-[#024EC1] font-semibold text-white text-center">Pesan Sekarang</a>
+                    <a href="./pages/searchTicket.php" class="px-12 py-2 rounded-md bg-gradient-to-r from-[#00C5F7] to-[#024EC1] font-semibold text-white text-center">Pesan Sekarang</a>
                 </div>
             </div>
         </div>
