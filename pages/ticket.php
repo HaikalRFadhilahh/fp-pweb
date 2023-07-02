@@ -48,7 +48,7 @@ $res = mysqli_query($conn, $query);
                     <div class="w-full lg:w-4/5 rounded-lg aspect-video bg-white h-fit sm:max-h-12 md:max-h-44 py-4 px-3 md:px-6 mx-auto">
                         <div class="flex w-full justify-between">
                             <h2 class="text-xl md:text-2xl lg:text-3xl text-black font-inter font-semibold"><?php echo $d['nama_bus'] ?></h2>
-                            <h3 class="font-semibold font-inter"><span class="text-[#FF0505] text-xl md:text-2xl lg:text-3xl">Rp <?php echo $d['harga'] ?></span> / <span class="font-md">Kursi</span></h3>
+                            <h3 class="font-semibold font-inter"><span class="text-[#FF0505] text-xl md:text-2xl lg:text-3xl">Rp <?php echo number_format($d['harga'], 0, ",", "."); ?></span> / <span class="font-md">Kursi</span></h3>
                         </div>
                         <h4 class="text-base font-inter capitalize font-light"><?php echo $d['nama_kelas'] ?> Class</h4>
                         <div class="min-w-full flex justify-between h-fit flex-wrap gap-4 md:gap-0">
