@@ -4,8 +4,13 @@ require('../middleware/auth.php');
 require('../koneksi/koneksi.php');
 $id = $_GET['id'];
 
-$query = "select b.nama_daerah,c.nama_bus from jadwal as a inner join tujuan as b on a.id_tujuan = b.id inner join bus as c ON a.id_bus = c.id where a.id = $id;";
+$query = "select b.nama_daerah,c.nama_bus,status from jadwal as a inner join tujuan as b on a.id_tujuan = b.id inner join bus as c ON a.id_bus = c.id where a.id = $id;";
 $res = mysqli_query($conn, $query);
+
+if ($res->fetch_row()[2] === 'ditutup') {
+    echo "<script>alert('Ticket Tidak Tersedia!')</script>";
+    echo "<script>document.location='./searchTicket.php'</script>";
+}
 
 if (0 >= $res->fetch_assoc()) {
     echo "<script>alert('Ticket Tidak Di Temukan')</script>";

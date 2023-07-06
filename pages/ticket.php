@@ -8,7 +8,7 @@ if (empty($tujuan) || empty($tanggal)) {
 
 require('../koneksi/koneksi.php');
 
-$query = "select a.id,nama_bus,nama_kelas,harga,nama_daerah,DATE(tanggal_keberangkatan) as tanggal_keberangkatan,DATE(tanggal_sampai) as tanggal_sampai,DATE_FORMAT(tanggal_keberangkatan, '%H:%i') as waktu_keberangkatan,DATE_FORMAT(tanggal_sampai, '%H:%i') as waktu_sampai from jadwal as a inner join tujuan as b on a.id_tujuan = b.id inner join bus as c on a.id_bus = c.id inner join kelas as d on c.id_kelas = d.id WHERE nama_daerah = '$tujuan' and DATE(tanggal_keberangkatan) = '$tanggal'";
+$query = "select a.id,nama_bus,nama_kelas,harga,nama_daerah,DATE(tanggal_keberangkatan) as tanggal_keberangkatan,DATE(tanggal_sampai) as tanggal_sampai,DATE_FORMAT(tanggal_keberangkatan, '%H:%i') as waktu_keberangkatan,DATE_FORMAT(tanggal_sampai, '%H:%i') as waktu_sampai,status from jadwal as a inner join tujuan as b on a.id_tujuan = b.id inner join bus as c on a.id_bus = c.id inner join kelas as d on c.id_kelas = d.id WHERE nama_daerah = '$tujuan' and DATE(tanggal_keberangkatan) = '$tanggal'";
 
 $res = mysqli_query($conn, $query);
 ?>
@@ -63,9 +63,19 @@ $res = mysqli_query($conn, $query);
                                         radio_button_checked
                                     </span><?php echo $d['waktu_sampai'] ?> (<?php echo $d['tanggal_sampai'] ?>)<span class="text-sm font-inter text-slate-400"><?php echo $d['nama_daerah'] ?></span></div>
                             </div>
-                            <div class="w-full md:w-1/2 flex justify-center md:block relative">
-                                <a href="./pesanTicket.php?id=<?php echo $d['id'] ?>" class="md:w-fit text-sm text-white font-semibold font-inter px-4 py-2 rounded-md bg-gradient-to-r from-[#00CEFB] to-[#024EC1] md:absolute md:bottom-0 md:right-0">Lihat Selengkapnya</a>
-                            </div>
+                            <?php
+                            if ($d['status'] === "ditutup") : ?>
+                                <div class="w-full md:w-1/2 flex justify-center md:block relative">
+                                    <a class="md:w-fit text-sm text-white font-semibold font-inter px-4 py-2 rounded-md bg-red-500 md:absolute md:bottom-0 md:right-0">Ticket Di Tutup</a>
+                                </div>
+                            <?php
+                            else : ?>
+                                <div class="w-full md:w-1/2 flex justify-center md:block relative">
+                                    <a href="./pesanTicket.php?id=<?php echo $d['id'] ?>" class="md:w-fit text-sm text-white font-semibold font-inter px-4 py-2 rounded-md bg-gradient-to-r from-[#00CEFB] to-[#024EC1] md:absolute md:bottom-0 md:right-0">Lihat Selengkapnya</a>
+                                </div>
+                            <?php
+                            endif;
+                            ?>
                         </div>
                     </div>
                     <!-- Ticket Section End -->
