@@ -2,9 +2,9 @@
 $tujuan = $_GET['tujuan'];
 $tanggal = $_GET['tanggal'];
 
-// if (empty($tujuan) || empty($tanggal)) {
-//     header("Location: ./searchTicket.php");
-// }
+if (empty($tujuan) || empty($tanggal)) {
+    header("Location: ./searchTicket.php");
+}
 
 require('../koneksi/koneksi.php');
 
@@ -64,7 +64,7 @@ $res = mysqli_query($conn, $query);
                                     </span><?php echo $d['waktu_sampai'] ?> (<?php echo $d['tanggal_sampai'] ?>)<span class="text-sm font-inter text-slate-400"><?php echo $d['nama_daerah'] ?></span></div>
                             </div>
                             <div class="w-full md:w-1/2 flex justify-center md:block relative">
-                                <a href="#" class="md:w-fit text-sm text-white font-semibold font-inter px-4 py-2 rounded-md bg-gradient-to-r from-[#00CEFB] to-[#024EC1] md:absolute md:bottom-0 md:right-0">Lihat Selengkapnya</a>
+                                <a href="./pesanTicket.php?id=<?php echo $d['id'] ?>" class="md:w-fit text-sm text-white font-semibold font-inter px-4 py-2 rounded-md bg-gradient-to-r from-[#00CEFB] to-[#024EC1] md:absolute md:bottom-0 md:right-0">Lihat Selengkapnya</a>
                             </div>
                         </div>
                     </div>

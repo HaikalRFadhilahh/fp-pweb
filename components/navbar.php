@@ -16,7 +16,7 @@
                 <li class="hover:text-[#00CEFB]"><a href="./register.php">Daftar</a></li>
             <?php else :
             ?>
-                <li class="hover:text-[#00CEFB]"><a href="./aksi/aksi_logout.php">Logout</a></li>
+                <li class="hover:text-[#00CEFB]"><a href="../aksi/aksi_logout.php">Logout</a></li>
             <?php endif; ?>
         </ul>
         <div class="h-3/4 aspect-square flex justify-center items-center lg:hidden" onclick="saklarMenu()">
@@ -41,7 +41,7 @@
                     <li class="hover:text-[#00CEFB]"><a href="./register.php">Daftar</a></li>
                 <?php else :
                 ?>
-                    <li class="hover:text-[#00CEFB]"><a href="./aksi/aksi_logout.php">Logout</a></li>
+                    <li class="hover:text-[#00CEFB]"><a href="../aksi/aksi_logout.php">Logout</a></li>
                 <?php endif; ?>
             </ul>
         </div>
