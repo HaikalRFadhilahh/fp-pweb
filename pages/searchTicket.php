@@ -29,7 +29,7 @@ require('../koneksi/koneksi.php');
             </div>
             <div class="w-full px-2 py-4 flex md:w-1/2">
                 <div class="w-4/5  rounded-md bg-white aspect-[9/12] sm:aspect-square md:aspect-square mx-auto flex flex-col items-center justify-center px-4 py-4">
-                    <form action="./ticket.php" method="POST" class="w-3/4 flex-col flex gap-4">
+                    <form action="./ticket.php" method="GET" class="w-3/4 flex-col flex gap-4">
                         <label for="tujuan">
                             <p class="text-left font-inter font-semibold text-black my-2">Kota Tujuan</p>
                             <select name="tujuan" id="tujuan" class="font-semibold w-full bg-transparent py-2 px-2 outline-none ring-2 ring-cyan-400 rounded-md" required>
@@ -56,7 +56,15 @@ require('../koneksi/koneksi.php');
     <!-- Footer -->
     <?php include('../components/footer.php'); ?>
     <!-- End Footer -->
+    <?php
 
+    // if (isset($_POST['tombol'])) {
+    //     $tujuan = $_POST['tujuan'];
+    //     $tanggal = $_POST['tanggal'];
+    //     echo "<script>alert('$tujuan Dan $tanggal')</script>";
+    //     header("Location: ./ticket.php?tujuan=$tujuan&tanggal=$tanggal");
+    // }
+    ?>
 </body>
 
 </html>

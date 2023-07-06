@@ -37,8 +37,8 @@
                 session_start();
                 if (empty($_SESSION['id']) && empty($_SESSION['username']) && empty($_SESSION['role'])) :
                 ?>
-                    <li class="hover:text-[#00CEFB]"><a href="./pages/login.php">Login</a></li>
-                    <li class="hover:text-[#00CEFB]"><a href="./pages/register.php">Daftar</a></li>
+                    <li class="hover:text-[#00CEFB]"><a href="./login.php">Login</a></li>
+                    <li class="hover:text-[#00CEFB]"><a href="./register.php">Daftar</a></li>
                 <?php else :
                 ?>
                     <li class="hover:text-[#00CEFB]"><a href="./aksi/aksi_logout.php">Logout</a></li>

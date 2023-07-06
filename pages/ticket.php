@@ -1,10 +1,10 @@
 <?php
-$tujuan = $_POST['tujuan'];
-$tanggal = $_POST['tanggal'];
+$tujuan = $_GET['tujuan'];
+$tanggal = $_GET['tanggal'];
 
-if (empty($tujuan) || empty($tanggal)) {
-    header("Location: ./searchTicket.php");
-}
+// if (empty($tujuan) || empty($tanggal)) {
+//     header("Location: ./searchTicket.php");
+// }
 
 require('../koneksi/koneksi.php');
 
@@ -30,8 +30,8 @@ $res = mysqli_query($conn, $query);
     <section class="min-w-screen lg:aspect-video min-h-screen h-fit bg-center bg-cover" style="background-image: url('../IMG/bus5.png');">
         <div class="container mx-auto py-4 px-2 md:px-2 flex flex-col gap-4 lg:px-14">
             <h2 class="text-center text-3xl font-semibold text-slate-900 font-inter">Ticket Bus</h2>
-            <h4 class="font-semibold text-lg md:text-xl font-inter text-center md:text-left lg:w-3/4 lg:mx-auto">Yogyakarta &#8594; <?php echo $_POST['tujuan']; ?></h4>
-            <p class="font-semibold text-lg  md:text-xl font-inter text-center md:text-left lg:w-3/4 lg:mx-auto"><?php echo $_POST['tanggal']; ?></p>
+            <h4 class="font-semibold text-lg md:text-xl font-inter text-center md:text-left lg:w-3/4 lg:mx-auto">Yogyakarta &#8594; <?php echo $tujuan; ?></h4>
+            <p class="font-semibold text-lg  md:text-xl font-inter text-center md:text-left lg:w-3/4 lg:mx-auto"><?php echo $tanggal; ?></p>
             <?php
             if (0 >= $res->fetch_assoc()) {
             ?>
