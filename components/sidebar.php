@@ -17,11 +17,9 @@
             <div class="list-group mx-4 mt-7">
                 <!-- Collapsed content -->
                 <ul id="collapseExample1" class="collapse show list-group list-group-flush text-left">
-                    <?php if ($_SESSION['role'] == 'user') { ?>
-                        <li class="list-group-item py-1" style="border: 0 none;background-color: transparent;">
-                            <a href="./index.php" class="text-reset fs-5 fw-medium" style="text-decoration: none;">Dashboard</a>
-                        </li>
-                    <?php  } ?>
+                    <li class="list-group-item py-1" style="border: 0 none;background-color: transparent;">
+                        <a href="./index.php" class="text-reset fs-5 fw-medium" style="text-decoration: none;">Dashboard</a>
+                    </li>
                     <li class="list-group-item py-1" style="border: 0 none;background-color: transparent;">
                         <a href="user.php" class="text-reset fs-5 fw-medium" style="text-decoration: none;">Profil User</a>
                     </li>
@@ -50,5 +48,5 @@
             </div>
         </div>
     </div>
-    <div class="col-lg-10 col-12">
+    <div class="col-lg-10 col-12" style="background-color: #F5F5F5;">
         <div class="container">
