@@ -2,74 +2,66 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard</title>
-    <link rel="stylesheet" href="../../CSS/bootstrap.min.css">
-    <?php
-    include('../../material/icons.php');
-    include('../../material/fonts.php');
-    ?>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard</title>
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="../../CSS/bootstrap.min.css">
+  <?php
+  include('../../material/icons.php');
+  include('../../material/fonts.php');
+  require('./middleware/auth.php');
+  require('../../koneksi/koneksi.php');
+  $id = $_SESSION['id'];
+  $query = "select tujuan.nama_daerah,ticket.nama_penumpang,bus.nama_bus,kelas.nama_kelas,ticket.status,jadwal.tanggal_keberangkatan from jadwal inner join ticket on jadwal.id = ticket.id_jadwal inner join tujuan on jadwal.id_tujuan = tujuan.id inner join bus on jadwal.id_bus = bus.id INNER JOIN kelas on bus.id_kelas = kelas.id where ticket.id_user = $id";
+  $res = mysqli_query($conn, $query);
+  ?>
 </head>
 
 <body>
-    <nav class="navbar navbar-expand-lg bg-dark" data-bs-theme="dark">
-        <div class="container-fluid">
-            <a class="navbar-brand fs-3" href="#">JOGJA<span class="fs-5">Travel</span></a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasResponsive" aria-controls="offcanvasResponsive">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-        </div>
-    </nav>
-
-    <div class="row g-0">
-        <div class="offcanvas-lg offcanvas-start col-lg-2 text-bg-dark" tabindex="-1" id="offcanvasResponsive" aria-labelledby="offcanvasResponsiveLabel" style="height: 100vh;">
-            <div class="offcanvas-header">
-                <h5 class="offcanvas-title" id="offcanvasResponsiveLabel">Menu Sidebar</h5>
-                <button type="button" class="btn-close bg-white" data-bs-dismiss="offcanvas" data-bs-target="#offcanvasResponsive" aria-label="Close"></button>
-            </div>
-           <nav id="sidebarMenu" class="collapse d-md-block sidebar collapse .bg-secondary.bg-gradient">
-    <div class="position-sticky">
-      <div class="list-group list-group-flush mx-4 mt-7">
-
-        <!-- Collapsed content -->
-        <ul id="collapseExample1" class="collapse show list-group list-group-flush">
-          <li class="list-group-item py-1">
-            <a href="user.php" class="text-reset">User</a>
-          </li>
-          <li class="list-group-item py-1">
-            <a href="ticket_admin.php" class="text-reset">Detail Pemesan</a>
-          </li>
-          <li class="list-group-item py-1">
-            <a href="jadwal.php" class="text-reset">Jadwal</a>
-          </li>
-          <li class="list-group-item py-1">
-            <a href="tujuan.php" class="text-reset">Tujuan</a>
-          </li>
-          <li class="list-group-item py-1">
-            <a href="kelas.php" class="text-reset">Kelas</a>
-          </li>
-          <li class="list-group-item py-1">
-            <a href="bus.php" class="text-reset">Bus</a>
-          </li>
-          <li class="list-group-item py-1">
-            <a href="tipe_bus.php" class="text-reset">Tipe Bus</a>
-          </li>
-         
-        </ul>
-        <!-- Collapse 1 -->
-
-      </div>
-    </div>
-  </nav>
-        </div>
-        <div class="col-lg-10 col-12">
-            <div class="container">
-
-            </div>
-        </div>
-    </div>
-    <script src="../../JS/bootstrap.min.js"></script>
+  <?php include('../../components/sidebar.php'); ?>
+  <div class="row px-2 my-2">
+    <h2 class="fs-2 col-lg-8">Detail Pemesanan</h2>
+    <a href="../searchTicket.php" class="btn btn-primary px-2 py-2 text-center ms-auto col-lg-2">Pesan Ticket</a>
+  </div>
+  <table class="table table-dark table-striped table-responsive">
+    <tr scope="row">
+      <th scope="col">No.</th>
+      <th scope="col">Tujuan</th>
+      <th scope="col">Nama Penumpang</th>
+      <th scope="col">Nama Bus</th>
+      <th scope="col">Kelas</th>
+      <th scope="col">Status</th>
+      <th scope="col">Tanggal Keberangkatan</th>
+    </tr>
+    <?php $no = 1;
+    while ($data = $res->fetch_assoc()) : ?>
+      <tr scope="row">
+        <td scope="col"><?php echo $no++ ?></td>
+        <td scope="col"><?php echo $data['nama_daerah'] ?></td>
+        <td scope="col"><?php echo $data['nama_penumpang'] ?></td>
+        <td scope="col"><?php echo $data['nama_bus'] ?></td>
+        <td scope="col"><?php echo $data['nama_kelas'] ?></td>
+        <?php if ($data['status'] == 'batal') : ?>
+          <td scope='col' class='fw-5 text-danger'><?php echo $data['status'] ?></td>
+        <?php elseif ($data['status'] == 'pending') : ?>
+          <td scope='col' class='fw-5 text-warning'><?php echo $data['status'] ?></td>
+        <?php else : ?>
+          <td scope='col' class='fw-5 text-success'><?php echo $data['status'] ?></td>
+        <?php endif; ?>
+        <td scope="col"><?php echo $data['tanggal_keberangkatan'] ?></td>
+      </tr>
+    <?php endwhile; ?>
+    <?php if (mysqli_num_rows($res) == 0) : ?>
+      <tr scope="row">
+        <td colspan="7" class="text-center">
+          Anda Belum Membeli Ticket!
+        </td>
+      </tr>
+    <?php endif; ?>
+  </table>
+  <?php include('../../components/endSidebar.php'); ?>
+  <script src="../../JS/bootstrap.min.js"></script>
 </body>
 
 </html>
