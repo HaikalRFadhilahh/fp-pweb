@@ -2,134 +2,180 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard</title>
-    <link rel="stylesheet" href="../../CSS/bootstrap.min.css">
-    <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-Fy6S3B9q64WdZWQUiU+q4/2Lc9npb8tCaSX9FK7E8HnRr0Jz8D6OP9dO5Vg3Q9ct" crossorigin="anonymous"></script>
-    <?php
-    include('../../material/icons.php');
-    include('../../material/fonts.php');
-    ?>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Profile Setting</title>
+  <link rel="stylesheet" href="../../CSS/bootstrap.min.css">
+  <?php
+  include('../../material/icons.php');
+  ?>
+  <?php
+  include('../../material/icons.php');
+  include('../../material/fonts.php');
+  require('./middleware/auth.php');
+  require('../../koneksi/koneksi.php');
+  $id = $_SESSION['id'];
+  $query = "select * from users where id=$id";
+  $queryData = "select a.id,a.tanggal_keberangkatan,a.tanggal_sampai,a.status,a.harga,b.nama_daerah,c.nama_bus,d.nama_kelas from jadwal as a INNER JOIN tujuan as b on a.id_tujuan = b.id INNER JOIN bus as c ON a.id_bus = c.id inner join kelas as d on c.id_kelas = d.id";
+  $res = mysqli_query($conn, $query);
+  $data = mysqli_fetch_assoc($res);
+  $dataTujuan = mysqli_query($conn, "select * from tujuan");
+  $dataBus = mysqli_query($conn, "select a.id,a.nama_bus,b.nama_kelas from bus as a inner join kelas as b on a.id_kelas = b.id");
+  $dataJadwal = mysqli_query($conn, $queryData);
+  ?>
+
 </head>
 
 <body>
-    <nav class="navbar navbar-expand-lg bg-dark" data-bs-theme="dark">
-        <div class="container-fluid">
-            <a class="navbar-brand fs-3" href="#">JOGJA<span class="fs-5">Travel</span></a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasResponsive" aria-controls="offcanvasResponsive">
-                <span class="navbar-toggler-icon"></span>
-            </button>
+  <?php include('../../components/sidebar.php'); ?>
+  <div class="row px-2 my-2">
+    <h2 class="fs-2 col-lg-8">Jadwal Ticket</h2>
+    <button type="button" class="btn btn-primary px-2 py-2 text-center ms-auto col-lg-2" data-bs-toggle="modal" data-bs-target="#formtambah">Tambah Jadwal</button>
+  </div>
+  <table class="table table-dark table-striped table-responsive">
+    <tr scope="row">
+      <th scope="col">No.</th>
+      <th scope="col">Tujuan</th>
+      <th scope="col">Nama Bus</th>
+      <th scope="col">Harga</th>
+      <th scope="col">Kelas</th>
+      <th scope="col">Status</th>
+      <th scope="col">Tanggal Keberangkatan</th>
+      <th scope="col">Tanggal Sampai</th>
+      <th scope="col">Aksi</th>
+    </tr>
+    <?php $i = 1;
+    foreach ($dataJadwal as $d) : ?>
+      <tr scope="row">
+        <td scope="col"><?php echo $i++; ?></td>
+        <td scope="col"><?php echo $d['nama_daerah'] ?></td>
+        <td scope="col"><?php echo $d['nama_bus'] ?></td>
+        <td scope="col"><?php echo $d['harga'] ?></td>
+        <td scope="col"><?php echo $d['nama_kelas'] ?></td>
+        <?php if ($d['status'] == 'ditutup') : ?>
+          <td scope='col' class='fw-5 text-danger'><?php echo $d['status'] ?></td>
+        <?php else : ?>
+          <td scope='col' class='fw-5 text-success'><?php echo $d['status'] ?></td>
+        <?php endif; ?>
+        <td scope="col"><?php echo $d['tanggal_keberangkatan'] ?></td>
+        <td scope="col"><?php echo $d['tanggal_sampai'] ?></td>
+        <td scope="col"><button class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#formupdate<?php echo $d['id']; ?>"><span class="material-symbols-outlined">
+              edit
+            </span></button></td>
+      </tr>
+    <?php endforeach; ?>
+  </table>
+  <!-- Modal -->
+  <div class="modal fade " id="formtambah" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="formtambah" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="staticBackdropLabel">Tambah Ticket</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
-        <div class="dropdown">
-            <a style="margin-right:50px"class="btn btn-secondary dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-expanded="false">
-                Profile
-            </a>
-            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownMenuLink">
-                        <li><a class="dropdown-item" href="#">My profile</a></li>
-                        <li><a class="dropdown-item" href="#">Settings</a></li>
-                        <li><a class="dropdown-item" href="#">Logout</a></li>
-                    </ul>
-                    </li>
-                </ul>
-        </div>
-    </nav>
-
-    <div class="row g-0">
-        <div class="offcanvas-lg offcanvas-start col-lg-2 text-bg-dark" tabindex="-1" id="offcanvasResponsive" aria-labelledby="offcanvasResponsiveLabel" style="height: 100vh;">
-            <div class="offcanvas-header">
-                <h5 class="offcanvas-title" id="offcanvasResponsiveLabel">Menu Sidebar</h5>
-                <button type="button" class="btn-close bg-white" data-bs-dismiss="offcanvas" data-bs-target="#offcanvasResponsive" aria-label="Close"></button>
+        <div class="modal-body">
+          <form method="POST" action="./aksi/aksi_tambah_jadwal.php">
+            <div class="mb-3">
+              <label for="tujuan" class="form-label">Tujuan</label>
+              <select class="form-select" aria-label="Default select example" name="id_tujuan" id="tujuan" required>
+                <option value="">Pilih Tujuan</option>
+                <?php foreach ($dataTujuan as $d) : ?>
+                  <option value="<?php echo $d['id']; ?>"><?php echo $d['nama_daerah']; ?></option>
+                <?php endforeach; ?>
+              </select>
             </div>
-           <nav id="sidebarMenu" class="collapse d-md-block sidebar collapse .bg-secondary.bg-gradient">
-   
-    <div class="position-sticky">
-      <div class="list-group list-group-flush mx-4 mt-7">
-
-        <!-- Collapsed content -->
-        <ul id="collapseExample1" class="collapse show list-group list-group-flush">
-          <li class="list-group-item py-1">
-            <a href="user.php" class="text-reset">User</a>
-          </li>
-          <li class="list-group-item py-1">
-            <a href="ticket_admin.php" class="text-reset">Detail Pemesan</a>
-          </li>
-          <li class="list-group-item py-1">
-            <a href="jadwal.php" class="text-reset">Jadwal</a>
-          </li>
-          <li class="list-group-item py-1">
-            <a href="tujuan.php" class="text-reset">Tujuan</a>
-          </li>
-          <li class="list-group-item py-1">
-            <a href="kelas.php" class="text-reset">Kelas</a>
-          </li>
-          <li class="list-group-item py-1">
-            <a href="bus.php" class="text-reset">Bus</a>
-          </li>
-          <li class="list-group-item py-1">
-            <a href="tipe_bus.php" class="text-reset">Tipe Bus</a>
-          </li>
-         
-        </ul>
-        <!-- Collapse 1 -->
-
+            <div class="mb-3">
+              <label for="bus" class="form-label">Bus</label>
+              <select class="form-select" aria-label="Default select example" name="id_bus" id="bus" required>
+                <option value="">Pilih Bus</option>
+                <?php foreach ($dataBus as $d) : ?>
+                  <option value="<?php echo $d['id']; ?>"><?php echo $d['nama_bus']; ?> - <?php echo $d['nama_kelas']; ?></option>
+                <?php endforeach; ?>
+              </select>
+            </div>
+            <div class="mb-3">
+              <label for="harga" class="form-label">Harga</label>
+              <input type="text" class="form-control" id="harga" aria-describedby="emailHelp" name="harga" required>
+            </div>
+            <div class="mb-3">
+              <label for="tanggal_keberangkatan" class="form-label">Tanggal Keberangkatan</label>
+              <input type="datetime-local" class="form-control" id="tanggal_keberangkatan" aria-describedby="emailHelp" name="tanggal_keberangkatan" required>
+            </div>
+            <div class="mb-3">
+              <label for="tanggal_sampai" class="form-label">Tanggal Sampai</label>
+              <input type="datetime-local" class="form-control" id="tanggal_sampai" aria-describedby="emailHelp" name="tanggal_sampai" required>
+            </div>
+            <input type="text" name="status" class="d-none" value="dibuka">
+            <button type="submit" class="btn btn-primary">Tambahkan</button>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        </div>
       </div>
     </div>
-  </nav>
+  </div>
+  <!-- End Modal -->
+  <?php foreach ($dataJadwal as $data) : ?>
+    <div class="modal fade " id="formupdate<?php echo $data['id'] ?>" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="formtambah" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h1 class="modal-title fs-5" id="staticBackdropLabel">Update Ticket</h1>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <form method="POST" action="./aksi/aksi_update_jadwal.php">
+              <input type="text" name="id" class="d-none" value="<?php echo $data['id']; ?>">
+              <div class="mb-3">
+                <label for="tujuan" class="form-label">Tujuan</label>
+                <select class="form-select" aria-label="Default select example" name="id_tujuan" id="tujuan" required>
+                  <?php foreach ($dataTujuan as $d) : ?>
+                    <option value="<?php echo $d['id']; ?>" <?php echo ($d['nama_daerah'] == $data['nama_daerah']  ? 'selected' : '') ?>><?php echo $d['nama_daerah']; ?></option>
+                  <?php endforeach; ?>
+                </select>
+              </div>
+              <div class="mb-3">
+                <label for="bus" class="form-label">Bus</label>
+                <select class="form-select" aria-label="Default select example" name="id_bus" id="bus" required>
+                  <?php foreach ($dataBus as $d) : ?>
+                    <option value="<?php echo $d['id']; ?>" <?php echo ($d['nama_bus'] == $data['nama_bus']  ? 'selected' : '') ?>><?php echo $d['nama_bus']; ?> - <?php echo $d['nama_kelas']; ?></option>
+                  <?php endforeach; ?>
+                </select>
+              </div>
+              <div class="mb-3">
+                <label for="harga" class="form-label">Harga</label>
+                <input type="text" class="form-control" id="harga" aria-describedby="emailHelp" name="harga" value="<?php echo $data['harga'] ?>" required>
+              </div>
+              <div class="mb-3">
+                <label for="tanggal_keberangkatan" class="form-label">Tanggal Keberangkatan</label>
+                <input type="datetime-local" class="form-control" id="tanggal_keberangkatan" aria-describedby="emailHelp" name="tanggal_keberangkatan" value="<?php echo $data['tanggal_keberangkatan'] ?>" required>
+              </div>
+              <div class="mb-3">
+                <label for="tanggal_sampai" class="form-label">Tanggal Sampai</label>
+                <input type="datetime-local" class="form-control" id="tanggal_sampai" aria-describedby="emailHelp" name="tanggal_sampai" value="<?php echo $data['tanggal_sampai'] ?>" required>
+              </div>
+              <div class="mb-3">
+                <label for="status" class="form-label">Status</label>
+                <select class="form-select" aria-label="Default select example" name="status" id="status" required>
+                  <option value="dibuka" <?php echo ($data['status'] == 'dibuka' ? 'selected' : '')  ?>>Di Buka</option>
+                  <option value="ditutup" <?php echo ($data['status'] == 'ditutup' ? 'selected' : '')  ?>>Di Tutup</option>
+                </select>
+              </div>
+              <button type="submit" class="btn btn-primary">Tambahkan</button>
+            </form>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          </div>
         </div>
-        <div class="col-lg-10 col-12">
-            
-        <div class="container">
-            <div>
-            <div class="row">
-                <div class="col-md-10">
-                <h1>Jadwal</h1>
-                </div>
-                <div class="col-md-2 px-5 py-2">
-                <a href="form_tambah.php" class="btn btn-success ">Tambah</a>
-                </div>
-            </div>
-            <?php include '../../koneksi/koneksi.php';
-            $sql = "SELECT * FROM jadwal";
-            $result = mysqli_query($conn, $sql);
-            ?>
-                    <table class="table">
-                    <thead>
-                        <tr>
-                            <th>Id</th>
-                            <th>Id Tujuan</th>
-                            <th>Id Bus</th>
-                            <th>Harga</th>
-                            <th>Tanggal Keberangkatan</th>
-                            <th>Tanggal Sampai</th>
-                            <th>Status</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <?php while ($row = mysqli_fetch_assoc($result)) { ?>
-                        <tr>
-                            <td><?php echo $row['id']; ?></td>
-                            <td><?php echo $row['id_tujuan']; ?></td>
-                            <td><?php echo $row['id_bus']; ?></td>
-                            <td><?php echo $row['harga']; ?></td> 
-                            <td><?php echo $row['tanggal_keberangkatan']; ?></td>
-                            <td><?php echo $row['tanggal_sampai']; ?></td>
-                            <td><?php echo $row['status']; ?></td>
-                            <td>
-                                <a href="form_edit.php?id=<?php echo $row['id']; ?>" class="btn btn-primary">Edit</a> 
-                                <a href="delete.php?id=<?php echo $row['id']; ?>" class="btn btn-danger">Hapus</a> 
-                            </td>
-                        </tr>
-                        <?php } ?>
-                    </tbody>
-                </table>
-
-                </div>
-        </div>
-                
-           
-    <script src="../../JS/bootstrap.min.js"></script>
+      </div>
+    </div>
+  <?php endforeach; ?>
+  <!-- Update Modal Form -->
+  <!-- End Update Modal Form -->
+  <?php include('../../components/endSidebar.php'); ?>
+  <script src="../../JS/bootstrap.min.js"></script>
 </body>
 
 </html>
