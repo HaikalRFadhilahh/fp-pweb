@@ -28,16 +28,16 @@
                             <a href="jadwal.php" class="text-reset fs-5 fw-medium" style="text-decoration: none;">Jadwal</a>
                         </li>
                         <li class="list-group-item py-1" style="border: 0 none;background-color: transparent;">
+                            <a href="ticket.php" class="text-reset fs-5 fw-medium" style="text-decoration: none;">Ticket</a>
+                        </li>
+                        <li class="list-group-item py-1" style="border: 0 none;background-color: transparent;">
                             <a href="tujuan.php" class="text-reset fs-5 fw-medium" style="text-decoration: none;">Tujuan</a>
                         </li>
                         <li class="list-group-item py-1" style="border: 0 none;background-color: transparent;">
-                            <a href="kelas.php" class="text-reset fs-5 fw-medium" style="text-decoration: none;">Kelas</a>
+                            <a href="#" class="text-reset fs-5 fw-medium" style="text-decoration: none;">Bus</a>
                         </li>
                         <li class="list-group-item py-1" style="border: 0 none;background-color: transparent;">
-                            <a href="bus.php" class="text-reset fs-5 fw-medium" style="text-decoration: none;">Bus</a>
-                        </li>
-                        <li class="list-group-item py-1" style="border: 0 none;background-color: transparent;">
-                            <a href="tipe_bus.php" class="text-reset fs-5 fw-medium" style="text-decoration: none;">Tipe Bus</a>
+                            <a href="#" class="text-reset fs-5 fw-medium" style="text-decoration: none;">Tipe Bus</a>
                         </li>
                     <?php } ?>
                     <li class="list-group-item py-1" style="border: 0 none;background-color: transparent;">

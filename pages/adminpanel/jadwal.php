@@ -13,6 +13,7 @@
   include('../../material/icons.php');
   include('../../material/fonts.php');
   require('./middleware/auth.php');
+  require('./middleware/admin.php');
   require('../../koneksi/koneksi.php');
   $id = $_SESSION['id'];
   $query = "select * from users where id=$id";
@@ -59,11 +60,22 @@
         <?php endif; ?>
         <td scope="col"><?php echo $d['tanggal_keberangkatan'] ?></td>
         <td scope="col"><?php echo $d['tanggal_sampai'] ?></td>
-        <td scope="col"><button class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#formupdate<?php echo $d['id']; ?>"><span class="material-symbols-outlined">
+        <td scope="col"><button class="badge bg-warning" data-bs-toggle="modal" data-bs-target="#formupdate<?php echo $d['id']; ?>"><span class="material-symbols-outlined">
               edit
-            </span></button></td>
+            </span></button>
+          <a href="./aksi/aksi_hapus_jadwal.php?id=<?php echo $d['id'] ?>" class="badge bg-danger"><span class="material-symbols-outlined">
+              delete
+            </span></a>
+        </td>
       </tr>
     <?php endforeach; ?>
+    <?php if (mysqli_num_rows($dataJadwal) == 0) : ?>
+      <tr scope="row">
+        <td colspan="9" class="text-center">
+          Belum Ada Jadwal Yang DI Tambahkan
+        </td>
+      </tr>
+    <?php endif; ?>
   </table>
   <!-- Modal -->
   <div class="modal fade " id="formtambah" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="formtambah" aria-hidden="true">
@@ -162,7 +174,7 @@
                   <option value="ditutup" <?php echo ($data['status'] == 'ditutup' ? 'selected' : '')  ?>>Di Tutup</option>
                 </select>
               </div>
-              <button type="submit" class="btn btn-primary">Tambahkan</button>
+              <button type="submit" class="btn btn-primary">Update</button>
             </form>
           </div>
           <div class="modal-footer">
