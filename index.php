@@ -1,3 +1,6 @@
+<?php
+session_start();
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -23,7 +26,6 @@
             </ul>
             <ul class="hidden gap-5 font-inter font-semibold text-white lg:flex">
                 <?php
-                session_start();
                 if (empty($_SESSION['id']) && empty($_SESSION['username']) && empty($_SESSION['role'])) :
                 ?>
                     <li class="hover:text-[#00CEFB]"><a href="./pages/login.php">Login</a></li>
@@ -48,7 +50,6 @@
                 <hr class="border-1 border-slate-900">
                 <ul class="px-2 py-1">
                     <?php
-                    session_start();
                     if (empty($_SESSION['id']) && empty($_SESSION['username']) && empty($_SESSION['role'])) :
                     ?>
                         <li class="hover:text-[#00CEFB]"><a href="./pages/login.php">Login</a></li>
