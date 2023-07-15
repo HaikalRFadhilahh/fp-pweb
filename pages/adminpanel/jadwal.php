@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Profile Setting</title>
+  <title>Jadwal</title>
   <link rel="stylesheet" href="../../CSS/bootstrap.min.css">
   <?php
   include('../../material/icons.php');
@@ -30,7 +30,7 @@
 <body>
   <?php include('../../components/sidebar.php'); ?>
   <div class="row px-2 my-2">
-    <h2 class="fs-2 col-lg-8">Jadwal Ticket</h2>
+    <h2 class="fs-2 col-lg-8">Detail Jadwal</h2>
     <button type="button" class="btn btn-primary px-2 py-2 text-center ms-auto col-lg-2" data-bs-toggle="modal" data-bs-target="#formtambah">Tambah Jadwal</button>
   </div>
   <table class="table table-dark table-striped table-responsive">

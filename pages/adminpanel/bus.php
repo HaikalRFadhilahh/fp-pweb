@@ -2,130 +2,170 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard</title>
-    <link rel="stylesheet" href="../../CSS/bootstrap.min.css">
-    <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-Fy6S3B9q64WdZWQUiU+q4/2Lc9npb8tCaSX9FK7E8HnRr0Jz8D6OP9dO5Vg3Q9ct" crossorigin="anonymous"></script>
-    <?php
-    include('../../material/icons.php');
-    include('../../material/fonts.php');
-    ?>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bus</title>
+  <link rel="stylesheet" href="../../CSS/bootstrap.min.css">
+  <?php
+  include('../../material/icons.php');
+  ?>
+  <?php
+  include('../../material/icons.php');
+  include('../../material/fonts.php');
+  require('./middleware/auth.php');
+  require('./middleware/admin.php');
+  require('../../koneksi/koneksi.php');
+  $query = "select a.*,b.tipe,c.nama_kelas from bus as a inner join tipe_bus as b on a.id_tipe = b.id inner join kelas as c on a.id_kelas = c.id";
+  $res = mysqli_query($conn, $query);
+  $dataKelas = mysqli_query($conn, "select * from kelas");
+  $dataTipe = mysqli_query($conn, "select * from tipe_bus");
+  ?>
+
 </head>
 
 <body>
-    <nav class="navbar navbar-expand-lg bg-dark" data-bs-theme="dark">
-        <div class="container-fluid">
-            <a class="navbar-brand fs-3" href="#">JOGJA<span class="fs-5">Travel</span></a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasResponsive" aria-controls="offcanvasResponsive">
-                <span class="navbar-toggler-icon"></span>
-            </button>
+  <?php include('../../components/sidebar.php'); ?>
+  <div class="row px-2 my-2">
+    <h2 class="fs-2 col-lg-8">Detail Bus</h2>
+    <button type="button" class="btn btn-primary px-2 py-2 text-center ms-auto col-lg-2" data-bs-toggle="modal" data-bs-target="#formtambah">Tambah Bus</button>
+  </div>
+  <table class="table table-dark table-striped table-responsive">
+    <tr scope="row">
+      <th scope="col">No.</th>
+      <th scope="col">Nama Bus</th>
+      <th scope="col">Jumlah Kursi</th>
+      <th scope="col">Harga Per KM</th>
+      <th scope="col">Tipe Bus</th>
+      <th scope="col">Kelas</th>
+      <th scope="col">Aksi</th>
+    </tr>
+    <?php $x = 1;
+    foreach ($res as $d) : ?>
+      <tr scope="row">
+        <th scope="col"><?php echo $x++; ?></th>
+        <th scope="col"><?php echo $d['nama_bus']; ?></th>
+        <th scope="col"><?php echo $d['jumlah_kursi']; ?></th>
+        <th scope="col"><?php echo $d['harga_km']; ?></th>
+        <th scope="col"><?php echo $d['tipe']; ?></th>
+        <th scope="col"><?php echo $d['nama_kelas']; ?></th>
+        <th scope="col"><button class="badge bg-warning" data-bs-toggle="modal" data-bs-target="#formupdate<?php echo $d['id']; ?>"><span class="material-symbols-outlined">
+              edit
+            </span></button></button><a href="./aksi/aksi_hapus_bus.php?id=<?php echo $d['id'] ?>" class="badge bg-danger"><span class="material-symbols-outlined">
+              delete
+            </span></a></th>
+      </tr>
+    <?php endforeach; ?>
+    <?php if (mysqli_num_rows($res) == 0) : ?>
+      <tr scope="row">
+        <td colspan="9" class="text-center">
+          Belum Ada Jadwal Yang DI Tambahkan
+        </td>
+      </tr>
+    <?php endif; ?>
+  </table>
+  <!-- Modal -->
+  <div class="modal fade " id="formtambah" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="formtambah" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="staticBackdropLabel">Tambah Bus</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
-        <div class="dropdown">
-            <a style="margin-right:50px"class="btn btn-secondary dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-expanded="false">
-                Profile
-            </a>
-            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownMenuLink">
-                        <li><a class="dropdown-item" href="#">My profile</a></li>
-                        <li><a class="dropdown-item" href="#">Settings</a></li>
-                        <li><a class="dropdown-item" href="#">Logout</a></li>
-                    </ul>
-                    </li>
-                </ul>
-        </div>
-    </nav>
-
-    <div class="row g-0">
-        <div class="offcanvas-lg offcanvas-start col-lg-2 text-bg-dark" tabindex="-1" id="offcanvasResponsive" aria-labelledby="offcanvasResponsiveLabel" style="height: 100vh;">
-            <div class="offcanvas-header">
-                <h5 class="offcanvas-title" id="offcanvasResponsiveLabel">Menu Sidebar</h5>
-                <button type="button" class="btn-close bg-white" data-bs-dismiss="offcanvas" data-bs-target="#offcanvasResponsive" aria-label="Close"></button>
+        <div class="modal-body">
+          <form method="POST" action="./aksi/aksi_tambah_bus.php">
+            <div class="mb-3">
+              <label for="nama_bus" class="form-label">Nama Bus</label>
+              <input type="text" class="form-control" id="nama_bus" aria-describedby="emailHelp" name="nama_bus" required>
             </div>
-           <nav id="sidebarMenu" class="collapse d-md-block sidebar collapse .bg-secondary.bg-gradient">
-   
-    <div class="position-sticky">
-      <div class="list-group list-group-flush mx-4 mt-7">
-
-        <!-- Collapsed content -->
-        <ul id="collapseExample1" class="collapse show list-group list-group-flush">
-          <li class="list-group-item py-1">
-            <a href="user.php" class="text-reset">User</a>
-          </li>
-          <li class="list-group-item py-1">
-            <a href="ticket_admin.php" class="text-reset">Detail Pemesan</a>
-          </li>
-          <li class="list-group-item py-1">
-            <a href="jadwal.php" class="text-reset">Jadwal</a>
-          </li>
-          <li class="list-group-item py-1">
-            <a href="tujuan.php" class="text-reset">Tujuan</a>
-          </li>
-          <li class="list-group-item py-1">
-            <a href="kelas.php" class="text-reset">Kelas</a>
-          </li>
-          <li class="list-group-item py-1">
-            <a href="bus.php" class="text-reset">Bus</a>
-          </li>
-          <li class="list-group-item py-1">
-            <a href="tipe_bus.php" class="text-reset">Tipe Bus</a>
-          </li>
-         
-        </ul>
-        <!-- Collapse 1 -->
-
+            <div class="mb-3">
+              <label for="jumlah_kursi" class="form-label">Jumlah Kursi</label>
+              <input type="text" class="form-control" id="jumlah_kursi" aria-describedby="emailHelp" name="jumlah_kursi" required>
+            </div>
+            <div class="mb-3">
+              <label for="harga_km" class="form-label">Harga Per KM</label>
+              <input type="text" class="form-control" id="harga_km" aria-describedby="emailHelp" name="harga_km" required>
+            </div>
+            <div class="mb-3">
+              <label for="id_tipe" class="form-label">Tipe Bus</label>
+              <select class="form-select" aria-label="Default select example" name="id_tipe" id="id_tipe" required>
+                <option value="">Pilih Tipe Bus</option>
+                <?php foreach ($dataTipe as $d) : ?>
+                  <option value="<?php echo $d['id']; ?>"><?php echo $d['tipe']; ?></option>
+                <?php endforeach; ?>
+              </select>
+            </div>
+            <div class="mb-3">
+              <label for="id_kelas" class="form-label">Tipe Bus</label>
+              <select class="form-select" aria-label="Default select example" name="id_kelas" id="id_kelas" required>
+                <option value="">Pilih Kelas</option>
+                <?php foreach ($dataKelas as $d) : ?>
+                  <option value="<?php echo $d['id']; ?>"><?php echo $d['nama_kelas']; ?></option>
+                <?php endforeach; ?>
+              </select>
+            </div>
+            <button type="submit" class="btn btn-primary">Tambahkan</button>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        </div>
       </div>
     </div>
-  </nav>
+  </div>
+  <!-- End Modal -->
+  <!-- Update Modal Form -->
+  <?php foreach ($res as $d) : ?>
+    <div class="modal fade " id="formupdate<?php echo $d['id'] ?>" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="formtambah" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h1 class="modal-title fs-5" id="staticBackdropLabel">Edit Bus</h1>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <form method="POST" action="./aksi/aksi_update_bus.php">
+              <input type="text" name="id" class="d-none" value="<?php echo $d['id']; ?>">
+              <div class="mb-3">
+                <label for="nama_bus" class="form-label">Nama Bus</label>
+                <input type="text" class="form-control" id="nama_bus" value="<?php echo $d['nama_bus'] ?>" aria-describedby="emailHelp" name="nama_bus" required>
+              </div>
+              <div class="mb-3">
+                <label for="jumlah_kursi" class="form-label">Jumlah Kursi</label>
+                <input type="text" class="form-control" id="jumlah_kursi" value="<?php echo $d['jumlah_kursi'] ?>" aria-describedby="emailHelp" name="jumlah_kursi" required>
+              </div>
+              <div class="mb-3">
+                <label for="harga_km" class="form-label">Harga Per KM</label>
+                <input type="text" class="form-control" id="harga_km" value="<?php echo $d['harga_km'] ?>" aria-describedby="emailHelp" name="harga_km" required>
+              </div>
+              <div class="mb-3">
+                <label for="id_tipe" class="form-label">Tipe Bus</label>
+                <select class="form-select" aria-label="Default select example" name="id_tipe" id="id_tipe" required>
+                  <?php foreach ($dataTipe as $data) : ?>
+                    <option value="<?php echo $data['id']; ?>" <?php echo ($d['tipe'] == $data['tipe']  ? 'selected' : '') ?>><?php echo $data['tipe']; ?></option>
+                  <?php endforeach; ?>
+                </select>
+              </div>
+              <div class="mb-3">
+                <label for="id_kelas" class="form-label">Tipe Bus</label>
+                <select class="form-select" aria-label="Default select example" name="id_kelas" id="id_kelas" required>
+                  <?php foreach ($dataKelas as $data) : ?>
+                    <option value="<?php echo $data['id']; ?>" <?php echo ($d['nama_kelas'] == $data['nama_kelas']  ? 'selected' : '') ?>><?php echo $data['nama_kelas']; ?></option>
+                  <?php endforeach; ?>
+                </select>
+              </div>
+              <button type="submit" class="btn btn-primary">Update</button>
+            </form>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          </div>
         </div>
-        <div class="col-lg-10 col-12">
-            
-        <div class="container">
-            <div>
-            <div class="row">
-                <div class="col-md-10">
-                <h1>Bus</h1>
-                </div>
-                <div class="col-md-2 px-5 py-2">
-                <a href="form_tambah.php" class="btn btn-success ">Tambah</a>
-                </div>
-            </div>
-            <?php include '../../koneksi/koneksi.php';
-            $sql = "SELECT * FROM bus";
-            $result = mysqli_query($conn, $sql);
-            ?>
-                    <table class="table">
-                    <thead>
-                        <tr>
-                            <th>Id</th>
-                            <th>Id Tipe</th>
-                            <th>Id Kelas</th>
-                            <th>Harga/Km</th>
-                            <th>Nama Bus</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <?php while ($row = mysqli_fetch_assoc($result)) { ?>
-                        <tr>
-                            <td><?php echo $row['id']; ?></td>
-                            <td><?php echo $row['id_tipe']; ?></td>
-                            <td><?php echo $row['id_kelas']; ?></td>
-                            <td><?php echo $row['harga_km']; ?></td>
-                            <td><?php echo $row['nama_bus']; ?></td>
-                            <td>
-                                <a href="form_edit.php?id=<?php echo $row['id']; ?>" class="btn btn-primary">Edit</a> 
-                                <a href="delete.php?id=<?php echo $row['id']; ?>" class="btn btn-danger">Hapus</a> 
-                            </td>
-                        </tr>
-                        <?php } ?>
-                    </tbody>
-                </table>
-
-                </div>
-        </div>
-                
-           
-    <script src="../../JS/bootstrap.min.js"></script>
+      </div>
+    </div>
+  <?php endforeach; ?>
+  <!-- End Update Modal Form -->
+  <?php include('../../components/endSidebar.php'); ?>
+  <script src="../../JS/bootstrap.min.js"></script>
 </body>
 
 </html>
